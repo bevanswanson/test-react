@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
+import PrompButton from './components/PromptButton';
+import TextField from './components/TextField';
+import { text } from 'stream/consumers';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export interface IAppProps {
 }
 
-export default App;
+export interface IAppState {
+  text: string
+}
+
+export default class App extends React.Component<IAppProps, IAppState> {
+  constructor(props: IAppProps) {
+    super(props);
+
+    this.state = {
+      text: ''
+    }
+  }
+
+  handleClick = (buttonValue: string) => this.setState({text: buttonValue})
+
+  handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      text: event.target.value
+    });
+  }
+
+  public render() {
+    return (
+      <div>
+        <PrompButton promptText='test prompt 100' onClick={this.handleClick} />
+        <PrompButton promptText='test prompt 2' onClick={this.handleClick} />
+        <PrompButton promptText='test prompt 3' onClick={this.handleClick} />
+        <PrompButton promptText='test prompt 4' onClick={this.handleClick} />
+
+        <TextField value={this.state.text} onChange={this.handleTextChange} />
+      </div>
+    );
+  }
+}
